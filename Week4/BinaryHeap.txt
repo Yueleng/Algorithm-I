@@ -1,0 +1,194 @@
+Now we're going to look at binary heaps, which is an ingenious and very simple data structure 
+that's going to help us implement all the priority queue operations quickly. 
+So the idea of a binary heap is based on the idea of a complete binary tree. 
+Well, first of all, a binary tree is either empty or it's a node with links to left and right binary trees. 
+So that's an example of a binary tree. A complete binary tree is one that's perfectly balanced, 
+except possibly for the bottom level. So there might be a few nodes on the bottom level and one level lower than the bottom level, 
+but otherwise all the levels are full. And we'll see how that looks in just a second. 
+The property of a complete tree is at the height of a complete tree with N nodes is the biggest integer less than log base 2 of N. 
+And that's really easy to convince yourself that that's true because the height 
+if we add nodes one at a time going from left to right on the bottom level say, 
+the height only increases when N is the power of 2. Complete binary trees actually happen in nature. 
+Here's an example of one that goes one, two, three, four levels at least. So 16 bushes at the end there. 
+All right, now the way we're going to use a complete binary trees to implement priority queues is to 
+first of all associate information with each node. We'll put our keys in the nodes. 
+And also we're going to represent it with an array. 
+So when we start putting the keys in the nodes, we're going to impose one more condition that's called heap ordering. 
+And the idea is that the parent's key is going to be no smaller than its children's key, and that's true for every node in the tree. 
+The array representation, all we do is we put, we start with indices at 1. 
+It's a little less calculation. That way, we leave a of zero empty. 
+And then we just take the nodes in level order. 
+So first we put the root, then we put the two nodes on the first level going left from right, 
+and then all the nodes on the third level going from left to right and so forth. 
+This is interesting because we can draw the tree to get more intuition about what's happening, 
+but in the actual data structure representation, we don't need any links at all, it's just an array. 
+The way that we move around the tree is by doing arithmetic on the indices. 
+So let's look at a few properties of binary heaps. So that's complete binary trees represented in array with keys in the nodes, 
+satisfying heap order property. Well, the first thing is that a of 1 is the largest key. 
+It's larger than the keys in this two children and they're larger than theirs and so forth, so it's the largest key in the data structure. 
+The other thing is as I just mentioned, you can use the array indices to move through the tree. 
+For example, if the node is at position k, index k in the array then its parent is at k over 2 and that's the integer divide. 
+So the parents of say H and G are both N, H is at 10 G is at 11, N is at 5. 
+So both of those are 10 over 2, 11 over 2 integer divide is 5. And going the other way, 
+it's easy to see that the children of the node at k are 2k and 2k plus 1. 
+So we don't need explicit links at all to represent these data structures, we can just use array indices. 
+So that's the basic setup or the invariant that we want to maintain in this data structure. 
+And now, what we are going to do is take a look at just a couple of different scenarios that we violate that invariant temporarily, 
+and then fix it. And that's going to give us the flexibility that we need to implement priority queue operations. 
+So one scenario shown here is, if for whatever reason a child's key becomes larger than its parents key. 
+So in this case, we have an example where T, the node T here its value changes and it becomes larger than its parent key, P. 
+So the heap order condition is satisfied everywhere except at this node. 
+Well, it's easy to fix this one. All we do is exchange the key in the child with the key in the parent. 
+After that exchange, then that would have T up here and P down here. Then the heap order condition is satisfied at that node 
+because the parent was smaller, so that one's smaller. The southern is still smaller, 
+so T after it's exchanged up here will be bigger than both its children. 
+But the heap conditional will be violated because T is still smaller than S. 
+So we have to do it again, exchange it with S. So we move up the tree exchanging the larger key with its smaller parent 
+until we get to a point where it's larger than both its children. 
+That's restoring the heap border along a path from the place where it's violated to the root. 
+You can think of that as kind of like the well-known Peter Principle where a node gets promoted to a level where it finally 
+can't be better than its boss, the level of its maximum incompetence. 
+And implementing that in code is really easy. We call that the swim operation. 
+Swims up to the top, and if we have a node at index k and we know the heap condition is violated there. 
+As long as we're not at the root and k's parent, k over 2 is less than a of k then we just exchange it with its parent and move up. 
+That's the swim operation to eliminate violation when a key value increases. So for example, 
+this gives us a way to insert a new element into a heap. 
+What we do is we add a new node at the end of the heap, so that's one position over. 
+The thing is remember represented in array one two three and so forth. 
+So the next empty position in the array, there's a place to put a new node. 
+And then we just declare that that's part of a heap and that node, 
+well if it's less than its parent, we're fine. But in general, we have to check whether the heap condition is violated 
+and exchange it with its parent as long as it's smaller. 
+And that's just perform the swim operation. So if N is the number of items in the heap, defined to be in the heap, 
+we're going to increment it, store our new key there and then perform the swim operation. 
+So that's a quick implementation of the insert operation. 
+And notice since it's just going from bottom to top in the heap, it takes at most 1 plus log base 2 of N compares. 
+Now, there's another scenario where a key becomes smaller. 
+For whatever reason a parent becomes the key and decreases, it might become smaller than one or both of its children's. 
+In this case, the value apposition two has changed to H for whatever reason, 
+in that smaller, in this case then both its children. So how do we fix that violation? Well, that one's also easy. 
+We figure out which of the children is larger. 
+In this case it's the S. And we exchange that one with the one that's violating the condition. 
+So that's moving the smaller key down. After that exchange, then S is in position two and it's bigger than both P and H. 
+And the heap condition is only violated again where H is sitting. And again, we keep going until getting to the bottom, 
+or getting to a place where both children are smaller. 
+And that's maybe a little bit what happens when a new boss is hired from the outside 
+and then the two subordinates struggle to take over that position and then the boss would get demoted to it's level of competence. 
+And again, that level of flexibility, here's the implementation of it. 
+And again, it's quite straightforward using the index arithmetic to move around in the heap, 
+and that's called the sink operation because we're going down in the heap. 
+Now for a position K, then what we need to worry about is the nodes at 2k and 2k plus one. 
+The first thing to check is find out which one is bigger, it's either 2k or 2k plus one and so set J accordingly. 
+So that's J now is after this statement, is the larger of the two children. 
+And don't forget to check that we're going off the end of the heap. 
+And then if the K is not less than either one of those, then we're done. 
+If it is, then we exchange with the larger of the two children and move down the heap. 
+Again just a few lines of code to eliminate the violation when a key value in a heap decreases. 
+And that one we're going to use to implement delete the maximum in a heap. 
+So, delete the maximum we have to do two things. One thing is the size of the heap is got to go down by one. 
+The other thing is return the maximum. While we know the one that we want to return is the one at the root, 
+so we'll save that value away to return to the client. And then since it has to go down by one, 
+the place to remove the element from the heap is at the end of the array because it's now going to have to not occupy that position. 
+So we take that element and replace the root with it. So move the H up, and actually put the root value there, 
+just exchange them but it's no longer in the heap. Now, that element which went from the bottom to the top 
+is most likely going to violate the heap order, it's going to be smaller than one or its both of its children, 
+so we do a sink. Now, in this case, to implement delete max we save away that value at the root in max, 
+and we eliminate loitering by nulling out that vacated position, then return the max value. 
+So that's an implementation of the delete max operation for heap using a sink, where a key value decreases, goes down in the heap. 
+So, let's just take a look at what happens with a real heap with the demo when we do these things. 
+And you'll have a good feeling for how this data structure works. 
+So, we're starting at some point where we have these 10 keys in a heap and its heap order. 
+So we've drawn the data structure with the links so we have an intuition for what's going on, 
+but all the program sees is the array in gray at the bottom where T is in position one, P and R in position two and three and so forth. 
+So, now suppose we were supposed to add S. So to add it to the heap, that's got to go in the position at the end. 
+And now we've added it to the heap by just incrementing in and putting it in there. 
+But now we have to bring the heap order back into condition and so now that key is larger than its parents. 
+So we're going to swim it up, exchange it with its parent as long as it's smaller than its parent. 
+So, first thing it goes up the exchange with the S, it's still bigger than P so we exchange it with the P and now we're done 
+because S is not bigger than T and the heap order condition is now satisfied everywhere in the heap. 
+So, with just two exchanges we insert that new element into the heap in this case. 
+Now, suppose the next operation is remove the maximum. So, we're going to take T and we're going to exchange it with the last element, 
+and then declare that to be no longer part of the heap. So now, we have to bring the heap order back because 
+it might be violated at the root. So now we invoke the sink where we exchange that node with the larger of its two children 
+until we find a place where it's larger than both of those children. 
+So, S is the larger of the two children R and S, and now H is still smaller than both its children, 
+so we promote the larger which is P. And now H has no right child, just a left child and it's larger than that one so now we're finished 
+with that operation. We've removed the maximum and we still have our data structure heap order 
+and our N keys stored in the first N positions in the array. 
+Let's remove the maximum again. Again, we take it out by exchanging this time G with a root, 
+and then decrease the size of the heap by one and just take that out. Now the node at the root violates the heap orders, 
+so we have to exchange it with the largest of its two children, in this case that's R. 
+Again G is not larger than its two children so we have to exchange it with the larger of the two, 
+that's O, and now we're done, we've removed the largest again. Now suppose we insert S back into the heap. 
+So, that's adding it at the end, violates the heap order, exchange it with the parent through smaller and 
+keep doing until we get to a place where it's larger than it's two children, in this case S goes all the way up to the root, 
+and then the I is all heap ordered again. So that's a little survey of some operations on a heap and you can see how every operation 
+is done with just a few exchanges along the path from the bottom to the top, or the top to the bottom. 
+Okay, here's the complete Java implementation of a priority queue, we're using the binary heap data structure. 
+It's actually not so different from the elementary implementations that we looked at in the last section. 
+Our representation is an array of keys and a size, that's the number of items in the heap. 
+For simplicity, we'll show the code where the client gives the capacity of the heap. 
+We can use resizing array in industrial strength implementation, the same that we did for stacks and other data structures 
+where we use arrays. So, we'll build a new array of keys and we have to use an ugly cast because of generic arrays in Java, 
+and that's where it's comparable and we need one more than the capacity to handle this thing where we don't use position zero. 
+So, the priority queue operations is the insert and delMax that we just showed in the previous slides. 
+Isempty, it is just checking whether N is equal to zero. We have the swim and sink functions that we showed earlier. 
+And then we have helper functions less and exchange that access the array directly so that the code doesn't have to access it directly. 
+And that's a complete implementation of priority queues in Java. 
+This implementation by itself is extremely significant because it's really very simple. 
+Optimal representation of the data and only a little arithmetic with array indices. 
+But as you can see by looking at this table, it gives us a way to implement priority queues where 
+both operations are guaranteed to happen in log N time. Now, experts have worked to come up with improvements on this 
+and there are slight improvements possible. We can make the heap d way rather than just two way. 
+And depending on the frequency of execution of the uncertain delMax operations, that might work out better. 
+There's an advanced data structure called a Fibonacci heap, where inserts are done in constant time and delete max done in log N time, 
+on average over all the operations. That one's generally too complicated to use in practice. 
+But still again, using theory as a guide maybe there's a way to decrease costs a little bit from binary heaps. 
+Of course, we cannot get down to having constant time for all operations. 
+Why? Well, we can start with a heap, by inserting all the elements and then deleting the maximum and getting a sort done 
+and that would be linear time if we had this kind of variation, 
+If we had Constant operations for both uncertain delMax. 
+But for certain applications we can get close to constant time for one or the other operations and that will be useful in different 
+implementations. Now, there's an important consideration that we have to bring up related to the programming language, 
+and this is a more general consideration and usually we bring into focus in algorithms but it's worthwhile mentioning. 
+We're assuming that the client doesn't get to change the keys while they're on the priority queue. 
+It's better not to assume that, it's better to arrange for that or implementations by using keys that are immutable, 
+whose values don't change. There's many reason that immutable keys are that programming languages provide the capability 
+to build immutable keys and this is a fine example of one. 
+So, we'll talk more about that in a minute. The other things that we didn't talk about, 
+the implementation should throw an exception if the client tries to delete from an empty priority queue, 
+and we should have a no-argument constructor and use a resizing array to account for a gradual growth and shrinkage 
+in an industrial strength implementation. Usually, we provide two implementations: 
+one that's max oriented, one that's min oriented so that nobody gets confused and they're the same except less and greater switch. 
+And we'll see later on, there's times when we want to expand the API and provide other operations like removing an arbitrary item 
+from the priority queue, or give the client in the API the capability of changing the priority of an item. 
+Or sink and swim methods are good for making this happen, but we'll delay these implementations until we need them 
+in a more complicated algorithm. So what about immutability? So, everything in Java is implemented as a data type, 
+a set of values and operations on those values. And the idea of immutable data type is you can't change the value 
+once it's created. So that's kind of like when you create a literal value to be assigned to an integer, 
+it has that value. So, here's an example, say using the data type for vectors, might be a way to implement vectors. 
+So we put the word final to mean that instance methods can't be overridden, 
+and not only that, instance variables are private, they can't be seen from the outside and they don't change. 
+And so a constructor for an immutable vector data type, it might take an array as its argument. 
+And that array, it's got value stored in it, say it doubles and those can change but what immutable implementation 
+would do would be to copy those values into the local data array instance variable and then those values are not going to change. 
+In the instance, methods won't change them and the client can't change them. 
+So, that value stays the same. Lots of implementations, data type implementations in Java are immutable. 
+String is immutable. When you create a string that value doesn't change. 
+If you want a new string, you have to create a new string using concatenation or some other operation. 
+And the same with the wrapper types like Integer and Double or color and lots of things. 
+Whereas on the other hand, sometimes the whole purpose of a data type is to maintain a changing value. 
+A good example as a counter or a stack. So you wouldn't put those things on a priority queue because the value is changing, 
+but the other ones you would. So the advantages of immutability and again, maybe this isn't the place to really solve those advantages, 
+it's more for a programming language course, is that it really simplifies debugging. 
+We can have more confidence that our priority queue operations are going to work correctly, 
+if we know that the type of data that's on the property queue is immutable. 
+If the client could change the values, how do we know that the heap order operation is preserved? 
+If we want the client to be able to change the values, we're going to provide methods for that purpose as I just mentioned. 
+There's many other reasons that people use immutable data types. There is a disadvantage that you have to create a new object 
+for every data type value. But for a lot of applications that disadvantage is not viewed to be significant 
+compared to the advantages. Here's a quote from one of Java׳s architect Josh Block, 
+"Classes should be immutable unless there's a very good reason to make the mutable. 
+If a class cannot be made immutable, you should still limit its mutability as much as possible." 
+And many programmers live by that kind of preset. So that's a basic implementation of priority queues 
+using the heap data structure represented as an array.
