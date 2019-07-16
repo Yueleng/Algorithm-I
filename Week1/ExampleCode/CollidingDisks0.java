@@ -1,6 +1,6 @@
 /******************************************************************************
- *  Compilation:  javac-algs4 CollidingDisks.java
- *  Execution:    java-algs4 CollidingDisks n
+ *  Compilation:  javac-algs4 CollidingDisks0.java
+ *  Execution:    java-algs4 CollidingDisks0 n
  *  
  *  Simulates the motion of n hard disks, subject to the laws of elastic
  *  collisions. This program is intended to test that algs4.jar is properly
@@ -12,7 +12,7 @@ import edu.princeton.cs.algs4.CollisionSystem;
 import edu.princeton.cs.algs4.Particle;
 import edu.princeton.cs.algs4.StdDraw;
 
-public class CollidingDisks {
+public class CollidingDisks0 {
     public static void main(String[] args) {
         int n = 20;  // number of particles (default 20)
         if (args.length == 1) {

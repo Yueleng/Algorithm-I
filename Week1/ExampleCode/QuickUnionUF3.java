@@ -1,8 +1,11 @@
-public class QuickUnionUF {
+public class QuickUnionUF3 {
     private int[] id;
-
-    public QuickUnionUF(int N){
+    
+    // Constructor
+    public QuickUnionUF3(int N){
         id = new int[N];
+        
+        // set id of each object to itself (N array accesses)
         for (int i=0; i < N; i++) id[i] = i;
     }
 
@@ -14,11 +17,14 @@ public class QuickUnionUF {
     }
 
     public boolean connected(int p, int q) {
+        // check if p and q have same root
+        // depth of p and q array accesses
         return root(p) == root(q);
     }
 
     public void union(int p, int q) {
         // change root of p to point to root of q.
+        // depth of p and q array accesses
         int i = root(p);
         int j = root(q);
         id[i] = j;
