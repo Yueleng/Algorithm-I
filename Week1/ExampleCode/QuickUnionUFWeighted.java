@@ -1,12 +1,12 @@
 /**
- * A significant improvement of QuickUnionUFWeighted4
+ * A significant improvement of QuickUnionUFWeighted
  */
 
-public class QuickUnionUFWeighted4 {
+public class QuickUnionUFWeighted {
     private int[] id;
     private int[] sz;
 
-    public QuickUnionUFWeighted4(int N){
+    public QuickUnionUFWeighted(int N){
         id = new int[N];
         sz = new int[N];
         for (int i=0; i < N; i++) {

@@ -1,8 +1,8 @@
-public class QuickUnionUF3 {
+public class QuickUnionUF {
     private int[] id;
     
     // Constructor
-    public QuickUnionUF3(int N){
+    public QuickUnionUF(int N){
         id = new int[N];
         
         // set id of each object to itself (N array accesses)

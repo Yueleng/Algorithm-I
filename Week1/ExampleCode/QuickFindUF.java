@@ -1,8 +1,8 @@
-public class QuickFindUF2 {
+public class QuickFindUF {
     public int[] id;
 
     // Constructor
-    public QuickFindUF2(int N) {
+    public QuickFindUF(int N) {
         id = new int[N];
 
         // set id of each object to itself (N array accesses)
