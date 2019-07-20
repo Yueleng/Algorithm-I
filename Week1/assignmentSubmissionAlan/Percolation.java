@@ -8,6 +8,7 @@ public class Percolation {
     private int n;
     // creates n-by-n grid, with all sites initially blocked
     public Percolation(int n) {
+        if (n <= 0) throw new IllegalArgumentException();
         sitesUF = new WeightedQuickUnionUF(n * n + 2);
         sites = new int[n][n];
         numberOfOpenSites = 0;
@@ -16,6 +17,8 @@ public class Percolation {
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
+        if (row <= 0 || row >= n + 1 || col <=0 || col >= n + 1)
+            throw new IllegalArgumentException();
         if (isOpen(row, col)) return;
         
         sites[row - 1][col - 1] = 1;
@@ -43,11 +46,15 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
+        if (row <= 0 || row >= n + 1 || col <=0 || col >= n + 1)
+            throw new IllegalArgumentException();
         return sites[row - 1][col - 1] == 1;
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
+        if (row <= 0 || row >= n + 1 || col <=0 || col >= n + 1)
+            throw new IllegalArgumentException();
         return sitesUF.connected(0, (row - 1) * n + col);
     }
 
