@@ -2,10 +2,11 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    public double[] trialResults;
-    private int numOfTrials;
-    private double upperBound;
-    private double lowerBound;
+    private final double[] trialResults;
+    private final int numOfTrials;
+    private final static double CONFIDENCE_95 = 1.96;
+    private final double mean;
+    private final double stddev;
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
@@ -23,7 +24,8 @@ public class PercolationStats {
             percolation = new Percolation(n);
             StdRandom.shuffle(sitesIndex);
             startIndex = 0;
-            row = 0; col = 0;
+            row = 0;
+            col = 0;
             while (!percolation.percolates()) {
                 row = sitesIndex[startIndex] / n + 1;
                 col = sitesIndex[startIndex] - (row - 1) * n + 1; 
@@ -32,32 +34,30 @@ public class PercolationStats {
             }
             trialResults[i] = (double) percolation.numberOfOpenSites() / (n * n);
         }
+        mean = StdStats.mean(trialResults);
+        stddev = StdStats.stddev(trialResults);
     }
 
     // sample mean of percolation threshold
     public double mean() {
-        double sum = 0.0;
-        for (int i = 0; i < trialResults.length; i++) {
-            sum += trialResults[i];
-        }
-        return sum / trialResults.length;
+        return this.mean;
     }
 
     // sample standard deviation of percolation threshold
     public double stddev() {
-        return StdStats.stddev(trialResults);
+        return this.stddev;
         
     }
 
     // low endpoint of 95% confidence interval
     public double confidenceLo() {
-        lowerBound = this.mean() - 1.96 * this.stddev() / Math.sqrt(numOfTrials);
+        double lowerBound = this.mean - CONFIDENCE_95 * this.stddev / Math.sqrt(numOfTrials);
         return lowerBound;
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        upperBound = this.mean() + 1.96 * this.stddev() / Math.sqrt(numOfTrials);
+        double upperBound = this.mean + CONFIDENCE_95 * this.stddev / Math.sqrt(numOfTrials);
         return upperBound;
     }
 
