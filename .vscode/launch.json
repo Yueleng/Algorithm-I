@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - ThreeSumBrute",
+            "request": "launch",
+            "mainClass": "ThreeSumBrute",
+            "projectName": "Algorithm-I_56aa5287"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - PercolationStats",
             "request": "launch",
             "mainClass": "PercolationStats",

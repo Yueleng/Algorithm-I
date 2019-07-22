@@ -59,6 +59,9 @@ java -cp "C:\Users\Yueleng\Coursera\algs4\Algorithm-I\algs4.jar"; CollidingDisks
     | Quick Union      |  N     |   N | N |
     | Weighted QU  |   N    |  lgN  | lgN |
 
+* Hopcroft-Ulman, Tarjan Proposition
+* Fredman-Saks Proposition.
+
 * M union-find operations on a set of N objects
 
     | Algorithm        | Initialize   |
@@ -69,4 +72,10 @@ java -cp "C:\Users\Yueleng\Coursera\algs4\Algorithm-I\algs4.jar"; CollidingDisks
     | QU + path compression  |   N + MlogN  |
     | Weighted QU + path compression  |   N + Mlg*N  |
 
-    lg*: iterate log function 
+    lg*: iterate log function
+
+* Some algorithmic succeesses: `Discrete Fourier Transform(FFT algorithm, NlogN steps)`, `N-body simulation`, 
+
+* Bad new for Analysis of Algorithms: Difficult to get precise measurements.
+
+* Total running time: sum of cost(machine, compiler) * frequency(algorithm, input data) for all operations
