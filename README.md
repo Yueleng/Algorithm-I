@@ -79,3 +79,7 @@ java -cp "C:\Users\Yueleng\Coursera\algs4\Algorithm-I\algs4.jar"; CollidingDisks
 * Bad new for Analysis of Algorithms: Difficult to get precise measurements.
 
 * Total running time: sum of cost(machine, compiler) * frequency(algorithm, input data) for all operations
+
+* Tilde notation: equivalence relationship. For example: 1/6 N^3 + 20N + 16 ~ 1/6 N^3
+
+* Page 31.
